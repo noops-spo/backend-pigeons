@@ -8,10 +8,10 @@ sleep 20
 curl -v "127.0.0.1:8080/v1/pigeons"
 echo ""
 
-curl -v "127.0.0.1:8080/v1/pigeons/PigeonsNft11"
+curl -v "127.0.0.1:8080/v1/pigeons/2-11"
 echo ""
 
-curl -XPOST -v "127.0.0.1:8080/v1/pigeons/1" -H 'Content-Type: application/json' --data '{"status":"locked"}'
+curl -XPOST -v "127.0.0.1:8080/v1/pigeons/2-11" -H 'Content-Type: application/json' --data '{"status":"locked"}'
 echo ""
 
 sleep 10

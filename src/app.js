@@ -26,14 +26,16 @@ myRouter.route('/v1/pigeons')
 //     res.json({message : "Add Pigeon", methode : req.method});
 // })
 
-myRouter.route('/v1/pigeons/:pigeons_name')
+myRouter.route('/v1/pigeons/:pigeons_id')
 .get(function(req,res){
-    res.json(pigeons.getPigeonByName(pigeonsList, req.params.pigeons_name));
-    // res.json({message : "Get Pigeon n°" + req.params.pigeons_name});
+    var pigeon = pigeons.getPigeonByID(pigeonsList, req.params.pigeons_id);
+    // console.debug("Pigeon: "+pigeon);
+    // #TODO if error != null
+    res.json(pigeon);
 })
 .post(function(req,res){
     // console.debug(req.body);
-    res.json({message : "Update Pigeon n°" + req.params.pigeons_name + " with status " + req.body.status});
+    res.json({message : "Update Pigeon n°" + req.params.pigeons_id + " with status " + req.body.status});
 })
 
 // Use myRouter
