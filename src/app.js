@@ -34,8 +34,8 @@ myRouter.route('/v1/pigeons/:pigeons_id')
     res.json(pigeon);
 })
 .post(function(req,res){
-    // console.debug(req.body);
-    res.json({message : "Update Pigeon n°" + req.params.pigeons_id + " with status " + req.body.status});
+    var pigeon = pigeons.updatePigeonStatusByID(pigeonsList, req.params.pigeons_id, req.body.sold);
+    res.json(pigeon);
 })
 
 // Use myRouter

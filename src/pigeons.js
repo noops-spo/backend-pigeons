@@ -1,25 +1,35 @@
 const fs = require('fs');
 
+const payment = require('./payment')
+
 function init () {
-    // console.debug("Read data.json file");
     let pigeons = JSON.parse(fs.readFileSync('/noopspoolData/data.json'));
-    // console.debug(pigeons)
-    return pigeons["pigeons"]
+    return pigeons["pigeons"];
 }
 
 function getPigeonByID (listPigeons, id) {
     for (let i = 0; i < listPigeons.length; i++) {
         if (listPigeons[i]["id"] == id) {
-            // console.debug(listPigeons[i])
             return listPigeons[i];
         }
     }
-    // console.debug("Full List:");
-    // console.debug(listPigeons);
-    // console.debug("Demanded pigeon");
-    // console.debug(id);
+    return null;
+}
+
+function updatePigeonStatusByID (listPigeons, id, newStatus) {
+    for (let i = 0; i < listPigeons.length; i++) {
+        if (listPigeons[i]["id"] == id) {
+            listPigeons[i]["sold"] = newStatus;
+            if (newStatus == "reserved") {
+                console.debug("Called checkPayment");
+                payment.checkPayment(listPigeons, id);
+            }
+            return listPigeons[i];
+        }
+    }
     return null;
 }
 
 module.exports.init = init
 module.exports.getPigeonByID = getPigeonByID
+module.exports.updatePigeonStatusByID = updatePigeonStatusByID
