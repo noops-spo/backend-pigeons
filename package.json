@@ -1,0 +1,6 @@
+{
+	"name": "PigeonsNFT",
+	"scripts": {
+		"start": "node main.js"
+	}
+}
