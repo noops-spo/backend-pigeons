@@ -2,12 +2,12 @@ const fs = require('fs');
 
 const payment = require('./payment')
 
-function init () {
+const init = () => {
     let pigeons = JSON.parse(fs.readFileSync('/noopspoolData/data.json'));
     return pigeons["pigeons"];
 }
 
-function getPigeonByID (listPigeons, id) {
+const getPigeonByID = (listPigeons, id) => {
     for (let i = 0; i < listPigeons.length; i++) {
         if (listPigeons[i]["id"] == id) {
             return listPigeons[i];
@@ -16,7 +16,7 @@ function getPigeonByID (listPigeons, id) {
     return null;
 }
 
-function updatePigeonStatusByID (listPigeons, id, newStatus) {
+const updatePigeonStatusByID = (listPigeons, id, newStatus) => {
     for (let i = 0; i < listPigeons.length; i++) {
         if (listPigeons[i]["id"] == id) {
             listPigeons[i]["sold"] = newStatus;
