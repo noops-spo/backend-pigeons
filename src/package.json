@@ -1,6 +1,8 @@
 {
   "dependencies": {
+    "@blockfrost/blockfrost-js": "^2.0.2",
     "body-parser": "^1.19.0",
+    "cardanocli-js": "^4.0.1",
     "express": "^4.17.1"
   }
 }

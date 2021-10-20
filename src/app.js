@@ -9,7 +9,8 @@ var hostname = '0.0.0.0';
 var port = 80;
 
 // Init Pigeon
-var pigeonsList = pigeons.init()
+var pigeonsList = pigeons.initPigeon()
+var cardanoCLI = pigeons.initCardanoCLI()
 
 var app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -30,11 +31,12 @@ myRouter.route('/v1/pigeons/:pigeons_id')
 .get(function(req,res){
     var pigeon = pigeons.getPigeonByID(pigeonsList, req.params.pigeons_id);
     // console.debug("Pigeon: "+pigeon);
-    // #TODO if error != null
+    // #TODO if pigeon == null
     res.json(pigeon);
 })
 .post(function(req,res){
-    var pigeon = pigeons.updatePigeonStatusByID(pigeonsList, req.params.pigeons_id, req.body.sold);
+    var pigeon = pigeons.updatePigeonStatusByID(pigeonsList, req.params.pigeons_id, req.body.sold, cardanoCLI);
+    // #TODO if pigeon == null
     res.json(pigeon);
 })
 
