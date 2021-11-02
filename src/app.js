@@ -21,7 +21,7 @@ var myRouter = express.Router();
 
 myRouter.route('/v1/pigeons')
 .get(function(req,res){
-    res.json(pigeonsList);
+    res.status(200).json(pigeonsList);
 })
 // .post(function(req,res){
 //     res.json({message : "Add Pigeon", methode : req.method});
@@ -30,14 +30,19 @@ myRouter.route('/v1/pigeons')
 myRouter.route('/v1/pigeons/:pigeons_id')
 .get(function(req,res){
     var pigeon = pigeons.getPigeonByID(pigeonsList, req.params.pigeons_id);
-    // console.debug("Pigeon: "+pigeon);
-    // #TODO if pigeon == null
-    res.json(pigeon);
+    if (pigeon !== null) {
+        res.status(200).json(pigeon);
+    } else {
+        res.sendStatus(404);
+    }
 })
 .post(function(req,res){
     var pigeon = pigeons.updatePigeonStatusByID(pigeonsList, req.params.pigeons_id, req.body.sold, cardanoCLI);
-    // #TODO if pigeon == null
-    res.json(pigeon);
+    if (pigeon !== null) {
+        res.status(200).json(pigeon);
+    } else {
+        res.sendStatus(404);
+    }
 })
 
 // Use myRouter
