@@ -38,7 +38,7 @@ const updatePigeonStatusByID = (listPigeons, id, newStatus, cli) => {
                 listPigeons[i]["sold"] = newStatus;
                 if (newStatus == "reserved") {
                     payment.checkPayment(listPigeons, id, cli);
-                } else {
+                } else if (newStatus == 1) {
                     updateDataPigeon(listPigeons);
                 }
                 return listPigeons[i];

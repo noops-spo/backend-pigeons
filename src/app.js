@@ -37,11 +37,15 @@ myRouter.route('/v1/pigeons/:pigeons_id')
     }
 })
 .post(function(req,res){
-    var pigeon = pigeons.updatePigeonStatusByID(pigeonsList, req.params.pigeons_id, req.body.sold, cardanoCLI);
-    if (pigeon !== null) {
-        res.status(200).json(pigeon);
+    if (req.body.sold == "reserved") {
+        var pigeon = pigeons.updatePigeonStatusByID(pigeonsList, req.params.pigeons_id, req.body.sold, cardanoCLI);
+        if (pigeon !== null) {
+            res.status(200).json(pigeon);
+        } else {
+            res.sendStatus(404);
+        }
     } else {
-        res.sendStatus(404);
+        res.sendStatus(401);
     }
 })
 
