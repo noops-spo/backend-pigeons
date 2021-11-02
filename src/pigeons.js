@@ -15,6 +15,12 @@ const initCardanoCLI = () => {
     return cardanocliJs;
 }
 
+const updateDataPigeon = (listPigeons) => {
+    let pigeons = {};
+    pigeons["pigeons"] = listPigeons;
+    fs.writeFileSync('/noopspoolData/data.json', JSON.stringify(listPigeons, null, 2) , 'utf-8');
+}
+
 const getPigeonByID = (listPigeons, id) => {
     for (let i = 0; i < listPigeons.length; i++) {
         if (listPigeons[i]["id"] == id) {
@@ -28,12 +34,17 @@ const getPigeonByID = (listPigeons, id) => {
 const updatePigeonStatusByID = (listPigeons, id, newStatus, cli) => {
     for (let i = 0; i < listPigeons.length; i++) {
         if (listPigeons[i]["id"] == id) {
-            listPigeons[i]["sold"] = newStatus;
-            if (newStatus == "reserved") {
-                // console.debug("Called checkPayment");
-                payment.checkPayment(listPigeons, id, cli);
+            if (listPigeons[i]["sold"] != newStatus) {
+                listPigeons[i]["sold"] = newStatus;
+                if (newStatus == "reserved") {
+                    payment.checkPayment(listPigeons, id, cli);
+                } else {
+                    updateDataPigeon(listPigeons);
+                }
+                return listPigeons[i];
+            } else {
+                break;
             }
-            return listPigeons[i];
         }
     }
     console.log("Pigeon not found");
