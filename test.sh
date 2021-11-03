@@ -3,7 +3,7 @@
 
 
 docker build -t noopspool:test ./
-docker run -d --name noopspool_test -p 8080:80 -e CARDANO_NODE_SOCKET_PATH=/cardano/data/ipc -e BLOCKFROST_PROJECT_ID=$(cat secretBlockFrost) -e ADDRESS_KEY_PATH=/noopspool/keys/nft-payment.skey \
+docker run -d --name noopspool_test -p 8080:80 -e CARDANO_NODE_SOCKET_PATH=/cardano/data/ipc -e BLOCKFROST_PROJECT_ID=$(cat secretBlockFrost) -e ADDRESS_KEY_PATH=/noopspool/keys/nft-payment.skey -e ADDRESS_MINT=addr[...] \
     -v /tmp/socket:/cardano/data/ipc -v /tmp/skey:/noopspool/keys/nft-payment.skey -v $(pwd)/data.json:/noopspoolData/data.json noopspool:test node /noopspool/app.js
 
 sleep 10

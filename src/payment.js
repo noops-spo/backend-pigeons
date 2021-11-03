@@ -2,6 +2,7 @@ const pigeons = require('./pigeons');
 const blockfrost = require('./blockfrost');
 
 const addressKeyPath = process.env.ADDRESS_KEY_PATH ;
+const addressMint = process.env.ADDRESS_MINT ;
 
 const asyncInterval = async (callback, ms, triesLeft = 5, cli, pigeon) => {
     return new Promise((resolve, reject) => {
@@ -28,7 +29,7 @@ const checkPaymentAddress = async (cli, pigeon, id) => {
         if (listUtxo[i]["value"]["lovelace"] >= cli.toLovelace(pigeon["price"])) {
             addressCustomer = blockfrost.getTransaction(listUtxo[i]["txHash"]);
             console.log(addressCustomer);
-            pigeons.sendPigeon(cli, pigeon["address"], addressKeyPath, id, addressCustomer);
+            pigeons.sendPigeon(cli, addressMint, addressKeyPath, id, addressCustomer);
             return true;
         }
     }
