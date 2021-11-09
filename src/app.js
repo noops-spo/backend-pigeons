@@ -37,7 +37,7 @@ myRouter.route('/v1/pigeons/:pigeons_id')
     }
 })
 .post(function(req,res){
-    if (req.body.sold == "reserved") {
+    if (req.body.sold == "reserved" || req.body.sold == 0) {
         var pigeon = pigeons.updatePigeonStatusByID(pigeonsList, req.params.pigeons_id, req.body.sold, cardanoCLI);
         if (pigeon !== null) {
             res.status(200).json(pigeon);

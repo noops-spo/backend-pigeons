@@ -11,19 +11,24 @@ sleep 10
 curl -v "127.0.0.1:8080/v1/pigeons"
 echo ""
 
-curl -v "127.0.0.1:8080/v1/pigeons/PigeonsNFT11"
+curl -v "127.0.0.1:8080/v1/pigeons/PigeonsNFT15"
 echo ""
 
-curl -XPOST -v "127.0.0.1:8080/v1/pigeons/PigeonsNFT11" -H 'Content-Type: application/json' --data '{"sold":"reserved"}'
+curl -XPOST -v "127.0.0.1:8080/v1/pigeons/PigeonsNFT15" -H 'Content-Type: application/json' --data '{"sold":"reserved"}'
 echo ""
 
-curl -v "127.0.0.1:8080/v1/pigeons/PigeonsNFT11"
+sleep 20
+
+curl -XPOST -v "127.0.0.1:8080/v1/pigeons/PigeonsNFT15" -H 'Content-Type: application/json' --data '{"sold":0}'
 echo ""
 
-sleep 120
+curl -v "127.0.0.1:8080/v1/pigeons/PigeonsNFT15"
+echo ""
+
+sleep 60
 docker logs noopspool_test
 
-curl -v "127.0.0.1:8080/v1/pigeons/PigeonsNFT11"
+curl -v "127.0.0.1:8080/v1/pigeons/PigeonsNFT15"
 echo ""
 
 
