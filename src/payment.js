@@ -19,7 +19,7 @@ const asyncInterval = async (callback, ms, triesLeft = 5, cli, pigeon) => {
     });
 }
 
-const checkPaymentAddress = async (cli, pigeon, id) => {
+const checkPaymentAddress = async (cli, pigeon) => {
     console.log('Check Cardano Address -> ', pigeon["address"]);
 
     // https://developers.cardano.org/docs/integrate-cardano/listening-for-payments-cli/
@@ -29,7 +29,7 @@ const checkPaymentAddress = async (cli, pigeon, id) => {
         if (listUtxo[i]["value"]["lovelace"] >= cli.toLovelace(pigeon["price"])) {
             let addressCustomer = await blockfrost.getTransaction(listUtxo[i]["txHash"]);
             console.log(addressCustomer);
-            pigeons.sendPigeon(cli, addressMint, addressKeyPath, id, addressCustomer);
+            pigeons.sendPigeon(cli, addressMint, addressKeyPath, pigeon["policyId"]+"."+pigeon["id"], addressCustomer);
             return true;
         }
     }
@@ -42,7 +42,7 @@ const checkPayment = async (listPigeons, id, cli) => {
 
     pigeon = pigeons.getPigeonByID(listPigeons, id);
     try {
-        await asyncInterval(checkPaymentAddress, 10000, 5, cli, pigeon, id);
+        await asyncInterval(checkPaymentAddress, 10000, 5, cli, pigeon);
         console.log("Payment OK");
         pigeons.updatePigeonStatusByID(listPigeons, id, 1);
     } catch (e) {

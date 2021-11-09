@@ -51,6 +51,18 @@ const updatePigeonStatusByID = (listPigeons, id, newStatus, cli) => {
     return null;
 }
 
+const getBalanceValue = (utxos) => {
+    const value = {};
+    utxos.forEach((utxo) => {
+      Object.keys(utxo.value).forEach((asset) => {
+        if (!value[asset]) value[asset] = 0;
+        value[asset] += utxo.value[asset];
+      });
+    });
+
+    return value;
+  };
+
 const sendPigeon = (cli, addressPigeon, addressKeyPath, asset, customerAddress) => {
 
     console.debug("Debug: Function sendPigeon()");
@@ -62,19 +74,12 @@ const sendPigeon = (cli, addressPigeon, addressKeyPath, asset, customerAddress) 
     // console.debug("Pigeon Balance: ", pigeonUtxo);
     // console.debug("Customer Balance: ", customerUtxo);
 
-    let pigeonBalanceMap = new Map(Object.entries(pigeonUtxo[0].value));
+    let pigeonBalanceMap = new Map(Object.entries(getBalanceValue(pigeonUtxo)));
     let customerBalanceMap = new Map();
-    let completeAsset;
 
-    for(const key of pigeonBalanceMap.keys()) {
-        if (key.includes(asset)) {
-            completeAsset = key;
-        }
-    }
-
-    pigeonBalanceMap.delete(completeAsset);
+    pigeonBalanceMap.delete(asset);
     pigeonBalanceMap.set("lovelace", pigeonBalanceMap.get("lovelace") - 1500000);
-    customerBalanceMap.set(completeAsset, 1);
+    customerBalanceMap.set(asset, 1);
     customerBalanceMap.set("lovelace", 1500000);
 
     let txInfo = {
