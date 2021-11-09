@@ -3,19 +3,19 @@ const blockfrost = require('./blockfrost');
 
 const addressKeyPath = process.env.ADDRESS_KEY_PATH ;
 const addressMint = process.env.ADDRESS_MINT ;
+const reservationValidity = process.env.RESERVATION_VALIDITY ;
 
-const asyncInterval = async (callback, ms, triesLeft = 5, cli, pigeon) => {
+const asyncInterval = async (callback, ms, validTimestamp, cli, pigeon) => {
     return new Promise((resolve, reject) => {
         const interval = setInterval(async () => {
             if (pigeon["sold"] == "reserved") {
                 if (await callback(cli, pigeon)) {
                     resolve();
                     clearInterval(interval);
-                } else if (triesLeft <= 1) {
+                } else if (Date.now() >= validTimestamp) {
                     reject();
                     clearInterval(interval);
                 }
-                triesLeft--;
             } else {
                 console.log("Cancel checkPayment");
                 reject();
@@ -53,7 +53,7 @@ const checkPayment = async (listPigeons, id, cli) => {
 
     pigeon = pigeons.getPigeonByID(listPigeons, id);
     try {
-        await asyncInterval(checkPaymentAddress, 10000, 5, cli, pigeon);
+        await asyncInterval(checkPaymentAddress, 10000, Date.now() + (reservationValidity * 60 *1000), cli, pigeon);
         console.log("Payment OK");
         pigeons.updatePigeonStatusByID(listPigeons, id, 1);
     } catch (e) {
