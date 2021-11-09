@@ -18,7 +18,7 @@ const initCardanoCLI = () => {
 const updateDataPigeon = (listPigeons) => {
     let pigeons = {};
     pigeons["pigeons"] = listPigeons;
-    fs.writeFileSync('/noopspoolData/data.json', JSON.stringify(listPigeons, null, 2) , 'utf-8');
+    fs.writeFileSync('/noopspoolData/data.json', JSON.stringify(pigeons, null, 2) , 'utf-8');
 }
 
 const getPigeonByID = (listPigeons, id) => {
@@ -34,7 +34,7 @@ const getPigeonByID = (listPigeons, id) => {
 const updatePigeonStatusByID = (listPigeons, id, newStatus, cli) => {
     for (let i = 0; i < listPigeons.length; i++) {
         if (listPigeons[i]["id"] == id) {
-            if (listPigeons[i]["sold"] != newStatus) {
+            if (listPigeons[i]["sold"] != newStatus && listPigeons[i]["sold"] != 1) {
                 listPigeons[i]["sold"] = newStatus;
                 if (newStatus == "reserved") {
                     payment.checkPayment(listPigeons, id, cli);
