@@ -94,7 +94,7 @@ const sendPigeon = (cli, addressPigeon, addressKeyPath, asset, customerAddress) 
             value: Object.fromEntries(customerBalanceMap),
           },
         ],
-        metadata: { 1: { cli: "Sending " + asset} },
+        metadata: { 1: { cli: "Sending " + asset.split('.')[1]} },
       };
 
     let raw = cli.transactionBuildRaw(txInfo);
