@@ -27,7 +27,7 @@ const checkPaymentAddress = async (cli, pigeon, id) => {
     listUtxo = cli.queryUtxo(pigeon["address"]);
     for (let i = 0; i < listUtxo.length; i++) {
         if (listUtxo[i]["value"]["lovelace"] >= cli.toLovelace(pigeon["price"])) {
-            let addressCustomer = blockfrost.getTransaction(listUtxo[i]["txHash"]);
+            let addressCustomer = await blockfrost.getTransaction(listUtxo[i]["txHash"]);
             console.log(addressCustomer);
             pigeons.sendPigeon(cli, addressMint, addressKeyPath, id, addressCustomer);
             return true;
