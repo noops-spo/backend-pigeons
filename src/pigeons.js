@@ -52,10 +52,15 @@ const updatePigeonStatusByID = (listPigeons, id, newStatus, cli) => {
 }
 
 const sendPigeon = (cli, addressPigeon, addressKeyPath, asset, customerAddress) => {
+
+    console.debug("Debug: Function sendPigeon()");
+    console.debug("Debug/addressPigeon: ", addressPigeon);
+    console.debug("Debug/customerAddress: ", customerAddress);
+
     pigeonUtxo = cli.queryUtxo(addressPigeon);
     customerUtxo = cli.queryUtxo(customerAddress);
-    // console.log("Pigeon Balance: ", pigeonUtxo);
-    // console.log("Customer Balance: ", customerUtxo);
+    // console.debug("Pigeon Balance: ", pigeonUtxo);
+    // console.debug("Customer Balance: ", customerUtxo);
 
     let pigeonBalanceMap = new Map(Object.entries(pigeonUtxo[0].value));
     let customerBalanceMap = new Map();
